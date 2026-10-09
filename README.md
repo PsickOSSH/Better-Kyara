@@ -1,47 +1,101 @@
 # Better Kyara
 
-Extension de navigateur (Chrome et Firefox, Manifest V3) qui am�liore la page **Ma collection** de [kyara.games](https://kyara.games/).
+Extension de navigateur pour **Chrome** et **Firefox** qui améliore la page **Ma collection** de [Kyara](https://kyara.games/).
 
-Les cartes non obtenues apparaissent normalement comme de simples cases � ? �. Better Kyara y ajoute le nom du personnage et un aper�u de la carte, pour que tu saches ce qu'il te manque sans cliquer sur chaque case.
+Les cartes que tu n'as pas encore obtenues apparaissent normalement comme des cases « ? ». Better Kyara affiche leur nom et un aperçu visuel directement dans ta collection, et permet d'actualiser tes cartes sans perdre tes filtres. Elle ne modifie pas ton compte et ne débloque aucune carte.
 
 > Projet non officiel, sans lien avec Kyara.
 
-## Fonctionnalit�s
+## Télécharger
 
-- Nom du personnage affich� sur chaque carte manquante
-- Aper�u de la carte, assombri pour la distinguer des cartes poss�d�es
-- Contour et badge de la couleur de la raret� (commune, peu commune, rare, �pique, l�gendaire, mythique)
-- Badge � NON D�BLOQU�E �
-- Chargement � la demande : seules les cartes visibles � l'�cran sont charg�es
-- Compatible avec les filtres, le tri et le changement d'univers
+| Navigateur | Installation |
+|---|---|
+| Firefox | [Disponible sur Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/better-kyara/) |
+| Chrome | [Disponible sur le Chrome Web Store](https://chromewebstore.google.com/detail/better-kyara/placeholder) |
+
+> Les liens des stores sont temporaires et seront remplacés après validation des publications.
+
+## Fonctionnalités
+
+### Aperçu des cartes manquantes
+
+- Affiche le nom du personnage sur chaque carte manquante
+- Affiche un aperçu de la carte, assombri pour la distinguer des cartes possédées
+- Ajoute un contour de la couleur de la rareté :
+  - Commune : gris
+  - Peu commune : vert
+  - Rare : bleu
+  - Épique : violet
+  - Légendaire : jaune
+  - Mythique : orange
+- Ajoute un badge **NON DÉBLOQUÉE**
+- Charge uniquement les cartes visibles à l'écran
+- Reste compatible avec les filtres, le tri et les changements d'univers
+
+### Bouton « ↻ Actualiser »
+
+Un bouton **↻ Actualiser** est ajouté sous les boutons « Cartes / Albums ». Il recharge ta collection pour afficher les cartes que tu viens de débloquer, **sans recharger la page et sans réinitialiser tes filtres**.
+
+Les éléments suivants sont conservés :
+
+- la recherche
+- la rareté sélectionnée
+- l'univers
+- le filtre « Cartes » (toutes, possédées, manquantes, doublons, envies)
+- le tri
+- la vue « Cartes » ou « Albums »
+- ta position de défilement
 
 ## Fonctionnement
 
-Pour chaque case manquante visible, l'extension charge en arri�re-plan la fiche publique de la carte (`/wiki/{id}`), exactement comme si tu cliquais dessus, puis lit le nom et l'image de la carte pour les afficher dans la grille.
+**Aperçu.** Pour chaque case manquante visible, l'extension consulte en arrière-plan la fiche publique associée sur `kyara.games/wiki/{id}`, comme lorsque tu ouvres la case manuellement. Elle récupère le nom et l'aperçu de la carte, puis les affiche dans la grille.
 
-Les cartes restent non d�bloqu�es : rien n'est modifi� sur ton compte.
+**Actualisation.** Le bouton mémorise tes filtres, effectue une navigation interne du site (vers une autre page puis retour sur la collection) pour forcer le rechargement des données, puis restaure tes filtres. La page du navigateur n'est jamais rechargée.
 
-## Installation
+Les cartes restent non débloquées : Better Kyara ne modifie pas ton inventaire, ton compte, tes ressources, ni les données du jeu.
 
-### Chrome / Edge / Brave
+## Installation manuelle
 
-1. T�l�charge ou clone ce d�p�t.
-2. Ouvre `chrome://extensions` et active le **mode d�veloppeur**.
-3. Clique sur **Charger l'extension non empaquet�e**.
-4. S�lectionne le dossier du projet.
-5. Recharge la page Collection de Kyara.
+### Chrome, Edge et Brave
+
+1. Télécharge ou clone ce dépôt.
+2. Ouvre `chrome://extensions`.
+3. Active le **Mode développeur**.
+4. Clique sur **Charger l'extension non empaquetée**.
+5. Sélectionne le dossier `better-kyara`.
+6. Recharge la page Collection de Kyara.
 
 ### Firefox
 
 1. Ouvre `about:debugging#/runtime/this-firefox`.
-2. Clique sur **Charger un module compl�mentaire temporaire**.
-3. S�lectionne le fichier `manifest.json`.
+2. Clique sur **Charger un module complémentaire temporaire**.
+3. Sélectionne le fichier `manifest.json`.
+4. Recharge la page Collection de Kyara.
 
-## Confidentialit�
+## Confidentialité
 
-- Aucune donn�e personnelle collect�e
-- Aucune requ�te vers un serveur tiers : seules des requ�tes vers `kyara.games` sont envoy�es
-- Un cache local (nom et image des cartes) est stock� dans le `localStorage` de ton navigateur
-- L'extension ne s'ex�cute que sur `https://kyara.games/*`
+- Aucune donnée personnelle n'est collectée.
+- Aucune donnée n'est envoyée à l'auteur ni à un serveur tiers.
+- L'extension effectue uniquement des requêtes vers `https://kyara.games/`.
+- Aucune donnée n'est conservée : l'extension n'utilise ni cache ni stockage local.
+- L'extension ne s'exécute que sur `https://kyara.games/*`.
 
-## Structure
+## Structure du projet
+
+```text
+better-kyara/
+├── manifest.json
+├── content.js
+├── README.md
+├── LICENSE
+└── icons/
+    ├── icon16.png
+    ├── icon32.png
+    ├── icon48.png
+    ├── icon64.png
+    └── icon128.png
+```
+
+## Licence
+
+Distribué sous licence [MIT](LICENSE).
