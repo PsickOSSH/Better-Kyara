@@ -8,31 +8,31 @@
     a.slot:has(.miss){
       border:2px solid var(--kyara-rarity)!important
     }
-	
-	a.slot:has(.miss) .miss{
-	  border:0!important
-	}
-	
-	/* Contour mythique : même dégradé que .r-M du site (version "calm", sans animation) */
-	a.slot[data-bk-rarity="mythique"]:has(.miss){
-	  position:relative!important;
-	  border-color:transparent!important;
-	  box-shadow:0 6px 14px #00000073!important
-	}
 
-	a.slot[data-bk-rarity="mythique"]:has(.miss)::before{
-	  content:"";
-	  position:absolute;
-	  inset:-4px;
-	  padding:4px;
-	  border-radius:inherit;
-	  pointer-events:none;
-	  background:conic-gradient(from 0deg,#ff4d2e,#f5c518,#3fbf7f,#4dd6ff,#b072ff,#ff4d9e,#ff4d2e);
-	  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-	  -webkit-mask-composite:xor;
-	  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-	  mask-composite:exclude
-	}
+    a.slot:has(.miss) .miss{
+      border:0!important
+    }
+
+    /* Contour mythique : même dégradé que .r-M du site (version "calm", sans animation) */
+    a.slot[data-bk-rarity="mythique"]:has(.miss){
+      position:relative!important;
+      border-color:transparent!important;
+      box-shadow:0 6px 14px #00000073!important
+    }
+
+    a.slot[data-bk-rarity="mythique"]:has(.miss)::before{
+      content:"";
+      position:absolute;
+      inset:-4px;
+      padding:4px;
+      border-radius:inherit;
+      pointer-events:none;
+      background:conic-gradient(from 0deg,#ff4d2e,#f5c518,#3fbf7f,#4dd6ff,#b072ff,#ff4d9e,#ff4d2e);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;
+      mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      mask-composite:exclude
+    }
 
     .kyara-peek-img{
       display:block!important;
@@ -84,7 +84,7 @@
       flex:0 0 auto!important;
       align-self:center!important;
       white-space:nowrap!important;
-      border-radius: 999px !important;
+      border-radius:999px!important;
 
       /* Désactive le déplacement au survol/clic */
       transform:none!important;
@@ -103,6 +103,30 @@
     .chips > #bk-refresh:disabled{
       opacity:.55!important;
       cursor:wait!important
+    }
+
+    /* Bouton « Retour à la collection » sur la page d'une carte */
+    #bk-back{
+      display:inline-flex!important;
+      margin:0 0 14px!important;
+      white-space:nowrap!important;
+      transform:none!important;
+      transition:none!important
+    }
+
+    #bk-back:hover,
+    #bk-back:active,
+    #bk-back:focus{
+      transform:none!important
+    }
+
+    #bk-back.bk-floating{
+      position:fixed!important;
+      top:84px!important;
+      left:16px!important;
+      z-index:60!important;
+      margin:0!important;
+      background:rgba(14,13,18,.92)!important
     }
 
     #bk-overlay{
@@ -188,8 +212,8 @@
       "--kyara-rarity",
       rarityColor(a)
     );
-	
-	a.dataset.bkRarity = (a.querySelector(".r")?.textContent || "").trim().toLowerCase();
+
+    a.dataset.bkRarity = (a.querySelector(".r")?.textContent || "").trim().toLowerCase();
 
     box.style.cssText +=
       ";position:relative!important;overflow:hidden!important;min-height:240px!important";
@@ -355,113 +379,232 @@
     window.scrollTo(0, state.y);
   }
 
-    let refreshing = false;
+  let refreshing = false;
 
-	const PENDING_KEY = "bk-pending-state";
+  const PENDING_KEY = "bk-pending-state";
+  const FROM_KEY = "bk-from-collection";
+  const FROM_TTL = 30 * 60 * 1000;
 
-	async function goToCollection() {
-	  // Réessaie le clic jusqu'à ce que l'URL soit /collection
-	  for (let attempt = 0; attempt < 4; attempt++) {
-		document.querySelector('a.navlink[href="/collection"]')?.click();
+  async function goToCollection() {
+    // Réessaie le clic jusqu'à ce que l'URL soit /collection
+    for (let attempt = 0; attempt < 4; attempt++) {
+      document.querySelector('a.navlink[href="/collection"]')?.click();
 
-		if (await waitFor(() => location.pathname === "/collection", 6000)) {
-		  return true;
-		}
-	  }
+      if (await waitFor(() => location.pathname === "/collection", 6000)) {
+        return true;
+      }
+    }
 
-	  return false;
-	}
+    return false;
+  }
 
-	async function refreshCollection(btn) {
-	  if (refreshing) return;
+  async function refreshCollection(btn) {
+    if (refreshing) return;
 
-	  const via =
-		document.querySelector('footer a[href="/raretes"]') ||
-		document.querySelector('a.navlink[href="/marche"]');
+    const via =
+      document.querySelector('footer a[href="/raretes"]') ||
+      document.querySelector('a.navlink[href="/marche"]');
 
-	  if (!via || !document.querySelector('a.navlink[href="/collection"]')) {
-		return;
-	  }
+    if (!via || !document.querySelector('a.navlink[href="/collection"]')) {
+      return;
+    }
 
-	  refreshing = true;
-	  btn.disabled = true;
+    refreshing = true;
+    btn.disabled = true;
 
-	  const state = readState();
+    const state = readState();
 
-	  // Sauvegarde de secours, utilisée seulement si la page doit se recharger
-	  sessionStorage.setItem(
-		PENDING_KEY,
-		JSON.stringify({ t: Date.now(), state })
-	  );
+    // Sauvegarde de secours, utilisée seulement si la page doit se recharger
+    sessionStorage.setItem(
+      PENDING_KEY,
+      JSON.stringify({ t: Date.now(), state })
+    );
 
-	  const overlay = document.createElement("div");
-	  overlay.id = "bk-overlay";
-	  overlay.textContent = "Actualisation de la collection…";
-	  document.body.appendChild(overlay);
+    const overlay = document.createElement("div");
+    overlay.id = "bk-overlay";
+    overlay.textContent = "Actualisation de la collection…";
+    document.body.appendChild(overlay);
 
-	  try {
-		via.click();
+    try {
+      via.click();
 
-		// Attend d'avoir réellement quitté la collection...
-		await waitFor(() => location.pathname !== "/collection", 8000);
+      // Attend d'avoir réellement quitté la collection...
+      await waitFor(() => location.pathname !== "/collection", 8000);
 
-		// ...puis laisse la page intermédiaire finir de s'afficher
-		await waitFor(() => !document.querySelector(".toolbar"), 8000);
-		await sleep(500);
+      // ...puis laisse la page intermédiaire finir de s'afficher
+      await waitFor(() => !document.querySelector(".toolbar"), 8000);
+      await sleep(500);
 
-		let ok = await goToCollection();
+      let ok = await goToCollection();
 
-		// Secours 1 : retour arrière dans l'historique du navigateur
-		if (!ok) {
-		  history.back();
-		  ok = await waitFor(() => location.pathname === "/collection", 6000);
-		}
+      // Secours 1 : retour arrière dans l'historique du navigateur
+      if (!ok) {
+        history.back();
+        ok = await waitFor(() => location.pathname === "/collection", 6000);
+      }
 
-		// Secours 2 : rechargement complet ; les filtres seront restaurés au chargement
-		if (!ok) {
-		  location.href = "/collection";
-		  return;
-		}
+      // Secours 2 : rechargement complet ; les filtres seront restaurés au chargement
+      if (!ok) {
+        location.href = "/collection";
+        return;
+      }
 
-		await waitFor(
-		  () => document.querySelector("#q") && document.querySelector(".grid .cell"),
-		  15000
-		);
+      await waitFor(
+        () => document.querySelector("#q") && document.querySelector(".grid .cell"),
+        15000
+      );
 
-		await sleep(150);
-		await restoreState(state);
+      await sleep(150);
+      await restoreState(state);
 
-		sessionStorage.removeItem(PENDING_KEY);
-	  } finally {
-		overlay.remove();
-		refreshing = false;
-		btn.disabled = false;
-	  }
-	}
+      sessionStorage.removeItem(PENDING_KEY);
+    } finally {
+      overlay.remove();
+      refreshing = false;
+      btn.disabled = false;
+    }
+  }
 
-	// Restaure les filtres si la page a dû être rechargée pendant l'actualisation
-	async function restorePending() {
-	  const raw = sessionStorage.getItem(PENDING_KEY);
-	  if (!raw || location.pathname !== "/collection") return;
+  // Restaure les filtres si la page a dû être rechargée pendant l'actualisation
+  async function restorePending() {
+    const raw = sessionStorage.getItem(PENDING_KEY);
+    if (!raw || location.pathname !== "/collection") return;
 
-	  sessionStorage.removeItem(PENDING_KEY);
+    sessionStorage.removeItem(PENDING_KEY);
 
-	  let saved;
-	  try { saved = JSON.parse(raw); } catch (_) { return; }
+    let saved;
+    try { saved = JSON.parse(raw); } catch (_) { return; }
 
-	  // Ignore une sauvegarde ancienne (plus de 30 secondes)
-	  if (!saved?.state || Date.now() - saved.t > 30000) return;
+    // Ignore une sauvegarde ancienne (plus de 30 secondes)
+    if (!saved?.state || Date.now() - saved.t > 30000) return;
 
-	  const ready = await waitFor(
-		() => document.querySelector("#q") && document.querySelector(".grid .cell"),
-		15000
-	  );
+    const ready = await waitFor(
+      () => document.querySelector("#q") && document.querySelector(".grid .cell"),
+      15000
+    );
 
-	  if (ready) {
-		await sleep(200);
-		await restoreState(saved.state);
-	  }
-	}
+    if (ready) {
+      await sleep(200);
+      await restoreState(saved.state);
+    }
+  }
+
+  /* ---------- Retour à la collection avec les filtres ---------- */
+
+  // Quand on clique sur une carte depuis la collection, on mémorise les filtres.
+  document.addEventListener("click", event => {
+    if (location.pathname !== "/collection") return;
+
+    const link = event.target.closest?.('a.slot[href^="/wiki/"]');
+    if (!link) return;
+
+    sessionStorage.setItem(
+      FROM_KEY,
+      JSON.stringify({ t: Date.now(), state: readState() })
+    );
+  }, true);
+
+  function readFrom() {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(FROM_KEY) || "null");
+
+      if (!saved?.state || Date.now() - saved.t > FROM_TTL) {
+        sessionStorage.removeItem(FROM_KEY);
+        return null;
+      }
+
+      return saved;
+    } catch (_) {
+      sessionStorage.removeItem(FROM_KEY);
+      return null;
+    }
+  }
+
+  // Nettoie la mémoire quand on n'est plus dans le parcours collection → carte.
+  function syncRoute() {
+    const path = location.pathname;
+
+    if (path !== "/collection" && !path.startsWith("/wiki/")) {
+      sessionStorage.removeItem(FROM_KEY);
+    }
+
+    if (path !== "/wiki" && !path.startsWith("/wiki/")) {
+      document.querySelector("#bk-back")?.remove();
+    }
+  }
+
+  let returning = false;
+
+  async function backToCollection(btn) {
+    if (returning) return;
+
+    const saved = readFrom();
+    if (!saved || !document.querySelector('a.navlink[href="/collection"]')) return;
+
+    returning = true;
+    btn.disabled = true;
+
+    const overlay = document.createElement("div");
+    overlay.id = "bk-overlay";
+    overlay.textContent = "Retour à la collection…";
+    document.body.appendChild(overlay);
+
+    try {
+      const ok = await goToCollection();
+
+      if (!ok) {
+        // Secours : rechargement complet, filtres restaurés au chargement
+        sessionStorage.setItem(
+          PENDING_KEY,
+          JSON.stringify({ t: Date.now(), state: saved.state })
+        );
+        location.href = "/collection";
+        return;
+      }
+
+      await waitFor(
+        () => document.querySelector("#q") && document.querySelector(".grid .cell"),
+        15000
+      );
+
+      await sleep(200);
+      await restoreState(saved.state);
+
+      await sleep(150);
+      window.scrollTo(0, saved.state.y);
+
+      sessionStorage.removeItem(FROM_KEY);
+    } finally {
+      overlay.remove();
+      returning = false;
+      btn.disabled = false;
+    }
+  }
+
+  function injectBackButton() {
+    if (!location.pathname.startsWith("/wiki/")) return;
+    if (document.querySelector("#bk-back")) return;
+    if (!readFrom()) return;
+
+    const btn = document.createElement("button");
+
+    btn.id = "bk-back";
+    btn.type = "button";
+    btn.className = "btn btn-ghost btn-sm";
+    btn.textContent = "← Retour à la collection";
+    btn.setAttribute("aria-label", "Retour à la collection avec les filtres");
+
+    btn.addEventListener("click", () => backToCollection(btn));
+
+    const crumbs = document.querySelector(".hero-in .crumbs");
+
+    if (crumbs?.parentElement) {
+      crumbs.parentElement.insertBefore(btn, crumbs);
+    } else {
+      btn.classList.add("bk-floating");
+      document.body.appendChild(btn);
+    }
+  }
 
   function injectButton() {
     if (location.pathname !== "/collection") return;
@@ -490,8 +633,10 @@
   }
 
   function tick() {
+    syncRoute();
     scan();
     injectButton();
+    injectBackButton();
   }
 
   restorePending();
