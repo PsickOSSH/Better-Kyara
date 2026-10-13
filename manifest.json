@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Better Kyara",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Affiche les cartes manquantes Kyara avec nom et univers dans la collection.",
   "browser_specific_settings": {
     "gecko": {
@@ -9,6 +9,26 @@
       "data_collection_permissions": {
         "required": ["none"]
       }
+    }
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://kyara.games/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "scripts": ["background.js"]
+  },
+  "action": {
+    "default_title": "Better Kyara",
+    "default_icon": {
+      "16": "icons/icon16.png",
+	  "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+	  "64": "icons/icon64.png",
+      "128": "icons/icon128.png"
     }
   },
   "content_scripts": [
