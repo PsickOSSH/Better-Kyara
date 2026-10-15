@@ -104,6 +104,28 @@
       opacity:.55!important;
       cursor:wait!important
     }
+	
+	/* Version mobile : bouton dans .row1, après Cartes / Albums */
+	.row1 > #bk-refresh{
+	margin:0 0 0 8px!important;
+	flex:0 0 auto!important;
+	align-self:center!important;
+	white-space:nowrap!important;
+	border-radius:999px!important;
+	transform:none!important;
+	transition:none!important
+	}
+
+	.row1 > #bk-refresh:hover,
+	.row1 > #bk-refresh:active,
+	.row1 > #bk-refresh:focus{
+	transform:none!important
+	}
+
+	.row1 > #bk-refresh:disabled{
+	opacity:.55!important;
+	cursor:wait!important
+	}
 
     /* Bouton « Retour à la collection » sur la page d'une carte */
     #bk-back{
@@ -606,31 +628,36 @@
     }
   }
 
-  function injectButton() {
-    if (location.pathname !== "/collection") return;
+	const MOBILE_MQ = window.matchMedia("(max-width: 720px)");
 
-    const chips = document.querySelector(".toolbar .row2 .chips");
+	function injectButton() {
+	  if (location.pathname !== "/collection") return;
 
-    if (!chips || document.querySelector("#bk-refresh")) {
-      return;
-    }
+	  const row1 = document.querySelector(".toolbar .row1");
+	  const chips = document.querySelector(".toolbar .row2 .chips");
+	  if (!row1 || !chips) return;
 
-    const btn = document.createElement("button");
+	  let btn = document.querySelector("#bk-refresh");
 
-    btn.id = "bk-refresh";
-    btn.type = "button";
+	  if (!btn) {
+		btn = document.createElement("button");
+		btn.id = "bk-refresh";
+		btn.type = "button";
+		btn.className = "btn btn-ghost btn-sm";
+		btn.textContent = "↻ Actualiser";
+		btn.setAttribute("aria-label", "Actualiser la collection");
+		btn.addEventListener("click", () => refreshCollection(btn));
+	  }
 
-    // Même style que le bouton fonctionnel précédent.
-    btn.className = "btn btn-ghost btn-sm";
+	  // Mobile : dans .row1 après Cartes / Albums. Ordinateur : après Mythique.
+	  const target = MOBILE_MQ.matches ? row1 : chips;
 
-    btn.textContent = "↻ Actualiser";
-    btn.setAttribute("aria-label", "Actualiser la collection");
+	  if (btn.parentElement !== target) {
+		target.appendChild(btn);
+	  }
+	}
 
-    btn.addEventListener("click", () => refreshCollection(btn));
-
-    // Après le dernier filtre : Mythique.
-    chips.appendChild(btn);
-  }
+	MOBILE_MQ.addEventListener?.("change", injectButton);
 
   function tick() {
     syncRoute();
