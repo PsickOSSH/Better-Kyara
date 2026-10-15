@@ -2,7 +2,7 @@
 
 Extension de navigateur pour **Chrome** et **Firefox** qui améliore la page **Ma collection** de [Kyara](https://kyara.games/).
 
-Les cartes que tu n'as pas encore obtenues apparaissent normalement comme des cases « ? ». Better Kyara affiche leur nom et un aperçu visuel directement dans ta collection, permet d'actualiser tes cartes sans perdre tes filtres, et te ramène à la collection avec tes filtres depuis la page d'une carte. Elle ne modifie pas ton compte et ne débloque aucune carte.
+Les cartes que tu n'as pas encore obtenues apparaissent normalement comme des cases « ? ». Better Kyara affiche leur nom et un aperçu visuel directement dans ta collection, permet d'actualiser tes cartes sans perdre tes filtres, et te ramène à la collection avec tes filtres depuis la fiche d'une carte. Elle ne modifie pas ton compte et ne débloque aucune carte.
 
 > Projet non officiel, sans lien avec Kyara.
 
@@ -34,7 +34,9 @@ Les cartes que tu n'as pas encore obtenues apparaissent normalement comme des ca
 
 ### Bouton « ↻ Actualiser »
 
-Un bouton **↻ Actualiser** est ajouté à droite des filtres de rareté. Il recharge ta collection pour afficher les cartes que tu viens de débloquer, **sans recharger la page et sans réinitialiser tes filtres**.
+Un bouton **↻ Actualiser** est ajouté à la page Collection. Il recharge ta collection pour afficher les cartes que tu viens de débloquer, **sans recharger la page et sans réinitialiser tes filtres**.
+
+Sur ordinateur, il se place à droite des filtres de rareté. Sur mobile, il se place à droite des boutons « Cartes / Albums », à côté de la recherche.
 
 Les éléments suivants sont conservés :
 
@@ -48,9 +50,14 @@ Les éléments suivants sont conservés :
 
 ### Bouton « ← Retour à la collection »
 
-Quand tu ouvres une carte depuis ta collection, un bouton **← Retour à la collection** apparaît en haut de sa page. Il te ramène à la collection **en retrouvant exactement tes filtres**, ce que la flèche de retour du navigateur ne permet pas : celle-ci recrée la page et réinitialise les filtres.
+Quand tu ouvres la fiche d'une carte depuis ta collection, un bouton **← Retour à la collection** apparaît en haut de sa page. Il te ramène à la collection **en retrouvant exactement tes filtres**, ce que la flèche de retour du navigateur ne permet pas : celle-ci recrée la page et réinitialise les filtres.
 
-Si tu arrives sur la page d'une carte par un autre chemin (Marché, lien partagé, recherche), le bouton n'apparaît pas.
+Il fonctionne dans les deux cas :
+
+- en cliquant sur une carte non débloquée (« ? ») ;
+- en cliquant sur **Voir la fiche du perso** depuis le zoom d'une carte que tu possèdes.
+
+Si tu arrives sur la fiche d'une carte par un autre chemin (Marché, lien partagé, recherche), le bouton n'apparaît pas.
 
 ## Fonctionnement
 
@@ -58,7 +65,7 @@ Si tu arrives sur la page d'une carte par un autre chemin (Marché, lien partag�
 
 **Actualisation.** Le bouton mémorise tes filtres, effectue une navigation interne du site (vers une autre page puis retour sur la collection) pour forcer le rechargement des données, puis restaure tes filtres. La page du navigateur n'est jamais rechargée.
 
-**Retour à la collection.** Quand tu cliques sur une carte depuis la collection, l'extension mémorise l'état de tes filtres. Le bouton de retour revient à la collection par une navigation interne, puis les restaure. Si ce retour échoue, la page se recharge et les filtres sont restaurés au chargement.
+**Retour à la collection.** Quand tu ouvres une fiche depuis la collection (case manquante ou lien « Voir la fiche du perso » du zoom), l'extension mémorise l'état de tes filtres. Le bouton de retour revient à la collection par une navigation interne, puis les restaure. Si ce retour échoue, la page se recharge et les filtres sont restaurés au chargement.
 
 Les cartes restent non débloquées : Better Kyara ne modifie pas ton inventaire, ton compte, tes ressources, ni les données du jeu.
 
