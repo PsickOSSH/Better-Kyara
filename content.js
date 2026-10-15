@@ -517,7 +517,9 @@
   document.addEventListener("click", event => {
     if (location.pathname !== "/collection") return;
 
-    const link = event.target.closest?.('a.slot[href^="/wiki/"]');
+    const link = event.target.closest?.(
+      'a.slot[href^="/wiki/"], a.wiki[href^="/wiki/"]'
+    );
     if (!link) return;
 
     sessionStorage.setItem(
@@ -664,6 +666,7 @@
     scan();
     injectButton();
     injectBackButton();
+	restorePending();
   }
 
   restorePending();
