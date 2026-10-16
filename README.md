@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="icons/main.png" alt="Better Kyara" width="420">
+</p>
+
 # Better Kyara
 
 Extension de navigateur pour **Chrome** et **Firefox** qui améliore la page **Ma collection** de [Kyara](https://kyara.games/).
