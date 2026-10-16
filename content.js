@@ -77,6 +77,11 @@
       white-space:nowrap!important;
       pointer-events:none!important
     }
+	
+	/* Badge mythique : même dégradé que le contour */
+	a.slot[data-bk-rarity="mythique"] .kyara-peek-badge{
+	background:linear-gradient(90deg,#ff4d2e,#f5c518,#3fbf7f,#4dd6ff,#b072ff)!important
+	}
 
     /* Bouton juste après Mythique, dans les filtres de rareté */
     .chips > #bk-refresh{
