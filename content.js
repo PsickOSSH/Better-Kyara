@@ -138,6 +138,16 @@
 	opacity:.55!important;
 	cursor:wait!important
 	}
+	
+	/* Bouton Actualiser : pas de fond --raise */
+	#bk-refresh,
+	#bk-refresh:hover,
+	#bk-refresh:active,
+	#bk-refresh:focus,
+	#bk-refresh:focus-visible{
+	--raise:transparent!important;
+	background:transparent!important
+	}
 
     /* Bouton « Retour à la collection » sur la page d'une carte */
     #bk-back{
