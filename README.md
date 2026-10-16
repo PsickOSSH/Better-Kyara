@@ -17,8 +17,6 @@ Les cartes que tu n'as pas encore obtenues apparaissent normalement comme des ca
 | Firefox | [Disponible sur Firefox Add-ons](https://addons.mozilla.org/fr/firefox/addon/better-kyara/) |
 | Chrome | [Disponible sur le Chrome Web Store](https://chromewebstore.google.com/detail/better-kyara/phdicjjgabfikoocojlgbenllemdplli) |
 
-> Les liens des stores sont temporaires et seront remplacés après validation des publications.
-
 ## Fonctionnalités
 
 ### Aperçu des cartes manquantes
