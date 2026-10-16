@@ -50,18 +50,25 @@
       pointer-events:none!important
     }
 
-    .kyara-peek-name{
-      position:absolute!important;
-      z-index:3!important;
-      left:8px!important;
-      right:8px!important;
-      top:02%!important;
-      color:#fff!important;
-      font:700 13px/1.1 system-ui,sans-serif!important;
-      text-align:center!important;
-      text-shadow:0 2px 4px #000,0 0 8px #000,0 0 12px #000!important;
-      pointer-events:none!important
-    }
+	.kyara-peek-name{
+	position:absolute!important;
+	z-index:3!important;
+	left:8px!important;
+	right:8px!important;
+	top:6px!important;
+	color:#fff!important;
+	font:700 13px/1.15 system-ui,sans-serif!important;
+	text-align:center!important;
+	text-shadow:0 2px 4px #000,0 0 8px #000,0 0 12px #000!important;
+	pointer-events:none!important
+	}
+	
+	.kyara-peek-series{
+    display: block !important;
+    margin-top: 3px !important;
+    font: 600 10.5px/1.2 system-ui, sans-serif !important;
+    color: #D9D4EE !important;
+	}
 
     .kyara-peek-badge{
       position:absolute!important;
@@ -191,42 +198,47 @@
     .replace(/\s*·\s*Kyara.*$/i, "")
     .trim();
 
-  async function read(url) {
-    const r = await fetch(url, {
-      credentials: "include",
-      cache: "no-store"
-    });
+	async function read(url) {
+	  const r = await fetch(url, {
+		credentials: "include",
+		cache: "no-store"
+	  });
 
-    const doc = new DOMParser().parseFromString(
-      await r.text(),
-      "text/html"
-    );
+	  const doc = new DOMParser().parseFromString(
+		await r.text(),
+		"text/html"
+	  );
 
-    const id = new URL(url).pathname
-      .split("/")
-      .filter(Boolean)
-      .pop();
+	  const id = new URL(url).pathname
+		.split("/")
+		.filter(Boolean)
+		.pop();
 
-    const x = doc.querySelector(
-      '.tcg .art img[src*="/cards/"],.art img[src*="/cards/"]'
-    );
+	  const x = doc.querySelector(
+		'.tcg .art img[src*="/cards/"],.art img[src*="/cards/"]'
+	  );
 
-    let image = x?.getAttribute("src") || `/cards/lg/${id}.webp`;
+	  let image = x?.getAttribute("src") || `/cards/lg/${id}.webp`;
 
-    image = new URL(image, location.origin).href.replace(
-      /\.(png|jpe?g)(?=($|[?#]))/i,
-      ".webp"
-    );
+	  image = new URL(image, location.origin).href.replace(
+		/\.(png|jpe?g)(?=($|[?#]))/i,
+		".webp"
+	  );
 
-    const card = doc.querySelector(".tcg-name")?.textContent.trim() || "";
-    const og = doc.querySelector('meta[property="og:title"]')?.content || "";
-    const title = doc.querySelector("title")?.textContent || "";
+	  // Titre : « Nom (UNIVERS) — carte Rareté · Kyara »
+	  const og = doc.querySelector('meta[property="og:title"]')?.content || "";
+	  const title = doc.querySelector("title")?.textContent || "";
+	  const full = clean(og || title);
 
-    return {
-      name: clean(card || og || title),
-      image
-    };
-  }
+	  // Coupe sur la dernière parenthèse : nom + univers
+	  const m = full.match(/^(.*?)\s*\(([^()]*)\)\s*$/);
+
+	  return {
+		name: m ? m[1].trim() : full,
+		series: m ? m[2].trim() : "",
+		image
+	  };
+	}
 
   function paint(a, d) {
     const box = a.querySelector(".miss");
@@ -250,9 +262,16 @@
     im.src = d.image;
     im.alt = "";
 
-    const n = document.createElement("div");
-    n.className = "kyara-peek-name";
-    n.textContent = d.name;
+	const n = document.createElement("div");
+	n.className = "kyara-peek-name";
+	n.textContent = d.name;
+
+	if (d.series) {
+	  const s = document.createElement("span");
+	  s.className = "kyara-peek-series";
+	  s.textContent = d.series;
+	  n.append(s);
+	}
 
     const b = document.createElement("div");
     b.className = "kyara-peek-badge";
