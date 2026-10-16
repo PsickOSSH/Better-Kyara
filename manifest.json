@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Better Kyara",
-  "version": "1.3",
+  "version": "1.4",
   "description": "Affiche les cartes manquantes Kyara avec nom et univers dans la collection.",
   "browser_specific_settings": {
     "gecko": {
