@@ -61,13 +61,19 @@ Il fonctionne dans les deux cas :
 
 Si tu arrives sur la fiche d'une carte par un autre chemin (Marché, lien partagé, recherche), le bouton n'apparaît pas.
 
+### Pourcentage de complétion des boosters
+
+Sur la page des boosters, le compteur « 2 975 / 6 457 possédés » est complété par le pourcentage correspondant (par exemple « 46,1 % »).
+
 ## Fonctionnement
 
-**Aperçu.** Pour chaque case manquante visible, l'extension consulte en arrière-plan la fiche publique associée sur `kyara.games/wiki/{id}`, comme lorsque tu ouvres la case manuellement. Elle récupère le nom et l'aperçu de la carte, puis les affiche dans la grille.
+**Aperçu.** Pour chaque case manquante visible, l'extension consulte en arrière-plan la fiche publique associée sur `kyara.games/wiki/{id}`, comme lorsque tu ouvres la case manuellement. Elle récupère le nom du personnage, son univers et l'aperçu de la carte, puis les affiche dans la grille.
 
 **Actualisation.** Le bouton mémorise tes filtres, effectue une navigation interne du site (vers une autre page puis retour sur la collection) pour forcer le rechargement des données, puis restaure tes filtres. La page du navigateur n'est jamais rechargée.
 
 **Retour à la collection.** Quand tu ouvres une fiche depuis la collection (case manquante ou lien « Voir la fiche du perso » du zoom), l'extension mémorise l'état de tes filtres. Le bouton de retour revient à la collection par une navigation interne, puis les restaure. Si ce retour échoue, la page se recharge et les filtres sont restaurés au chargement.
+
+**Pourcentage des boosters.** Sur la page des boosters, l'extension lit le compteur déjà affiché par le site (par exemple « 2 975 / 6 457 possédés ») et ajoute le pourcentage correspondant (« 46,1 % »). Le calcul se fait localement dans ton navigateur, sans aucune requête supplémentaire.
 
 Les cartes restent non débloquées : Better Kyara ne modifie pas ton inventaire, ton compte, tes ressources, ni les données du jeu.
 

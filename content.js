@@ -13,6 +13,16 @@
       border:0!important
     }
 
+	/* Pourcentage de cartes possédées sur la page Boosters */
+	.top > .have > .bk-pct{
+	margin-left:8px!important;
+	padding-left:8px!important;
+	border-left:1px solid var(--line3,#3a3742)!important;
+	color:var(--acc,#ff4d2e)!important;
+	font-weight:700!important;
+	white-space:nowrap!important
+	}
+
     /* Contour mythique : même dégradé que .r-M du site (version "calm", sans animation) */
     a.slot[data-bk-rarity="mythique"]:has(.miss){
       position:relative!important;
@@ -695,11 +705,56 @@
 
 	MOBILE_MQ.addEventListener?.("change", injectButton);
 
+	function injectBoosterPct() {
+	  const have = document.querySelector(".top > .have");
+	  if (!have) return;
+
+	  // Texte du site uniquement, sans notre propre ajout
+	  const text = [...have.childNodes]
+		.filter(n => !(n.nodeType === 1 && n.classList.contains("bk-pct")))
+		.map(n => n.textContent)
+		.join("");
+
+	  const m = text.match(/([\d\s\u00a0\u202f]+)\/\s*([\d\s\u00a0\u202f]+)\s*poss/i);
+
+	  let pct = document.querySelector(".top > .have > .bk-pct");
+
+	  if (!m) {
+		pct?.remove();
+		return;
+	  }
+
+	  const owned = parseInt(m[1].replace(/\D/g, ""), 10);
+	  const total = parseInt(m[2].replace(/\D/g, ""), 10);
+
+	  if (!total || Number.isNaN(owned)) {
+		pct?.remove();
+		return;
+	  }
+
+	  const value =
+		((owned / total) * 100).toLocaleString("fr-FR", {
+		  minimumFractionDigits: 1,
+		  maximumFractionDigits: 1
+		}) + "\u00a0%";
+
+	  if (!pct) {
+		pct = document.createElement("span");
+		pct.className = "bk-pct";
+		have.append(pct);
+	  }
+
+	  if (pct.textContent !== value) {
+		pct.textContent = value;
+	  }
+	}
+
   function tick() {
     syncRoute();
     scan();
     injectButton();
     injectBackButton();
+	injectBoosterPct();
 	restorePending();
   }
 
