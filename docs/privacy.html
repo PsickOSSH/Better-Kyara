@@ -31,26 +31,36 @@ footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-si
 <p class="meta">Better Kyara · Dernière mise à jour : 22 octobre 2026</p>
 
 <div class="note">
-<p><strong>En résumé :</strong> Better Kyara ne collecte aucune donnée personnelle et n'envoie rien à l'auteur ni à un serveur tiers. Tout se passe dans votre navigateur.</p>
+<p><strong>En résumé :</strong> Better Kyara traite les informations nécessaires à ses fonctionnalités dans votre navigateur et consulte Kyara pour obtenir les informations sur les cartes et leurs prix. Aucune donnée personnelle n'est envoyée à l'auteur ni à un service d'analyse ou de publicité.</p>
 </div>
 
-<p>Better Kyara est une extension de navigateur pour Chrome et Firefox qui améliore les pages <em>Ma collection</em> et <em>Boosters</em> de <a href="https://kyara.games/">kyara.games</a>. C'est un projet non officiel, sans lien avec Kyara.</p>
-
+<p>Better Kyara est une extension de navigateur pour Chrome et Firefox qui améliore les pages <em>Ma collection</em>, <em>Boosters</em> et les échanges de la page <em>Le marché</em> de <a href="https://kyara.games/">kyara.games</a>. Elle ajoute notamment des aperçus de cartes manquantes, des prix indicatifs et des informations sur les cartes. C'est un projet non officiel, sans lien avec Kyara.</p>
 <h2>Données collectées</h2>
 <p>Aucune. L'extension ne collecte, ne vend, ne partage et ne transmet aucune donnée personnelle, ni à l'auteur, ni à un service d'analyse, de publicité ou à un autre tiers. Elle n'utilise ni compte, ni cookie qui lui soit propre, ni outil de mesure d'audience.</p>
 
 <h2>Données traitées dans votre navigateur</h2>
 <p>Pour fonctionner, l'extension traite certaines informations localement, sur votre appareil :</p>
 <ul>
-<li><strong>Vos filtres de collection</strong> (recherche, rareté, univers, filtre des cartes, tri, vue, position de défilement) sont gardés temporairement dans le stockage de session de l'onglet (<code>sessionStorage</code>). Ils servent uniquement à les restaurer après l'actualisation de la collection ou au retour depuis la fiche d'une carte. Ils disparaissent à la fermeture de l'onglet ou après 30 minutes, et ne quittent jamais votre navigateur.</li>
-<li><strong>Le contenu des pages de kyara.games</strong> est lu pour afficher le nom, l'univers et l'aperçu des cartes que vous n'avez pas encore obtenues, et pour calculer un pourcentage à partir du compteur « possédés » déjà affiché par le site. Ces informations ne sont ni enregistrées ni transmises.</li>
+<li><strong>Vos filtres de collection et d'offres</strong> sont mémorisés dans le stockage de session de l'onglet (<code>sessionStorage</code>) pour les restaurer après une actualisation ou une navigation prise en charge. Cela comprend notamment la recherche et les filtres sélectionnés. Ces informations ne sont pas transmises à l'auteur.</li>
+
+<li><strong>Le contenu des pages de kyara.games</strong> est lu pour afficher le nom, l'univers, la rareté et l'aperçu des cartes, repérer les cartes indiquées comme possédées par le site et calculer le pourcentage de complétion des boosters.</li>
+
+<li><strong>Les informations de prix</strong> sont utilisées pour afficher des valeurs indicatives. Elles sont mises en cache localement dans votre navigateur pour limiter les requêtes répétées vers Kyara.</li>
+
+<li><strong>Les préférences et les données de veille</strong>, lorsque les fonctionnalités correspondantes sont utilisées, sont conservées dans le stockage local de l'extension. Elles ne sont pas transmises à l'auteur.</li>
 </ul>
 
+<h2>Conservation des données locales</h2>
+<p>Les filtres enregistrés dans <code>sessionStorage</code> sont liés à la session de l'onglet. L'extension peut les supprimer une fois leur restauration effectuée.</p>
+<p>Le cache des prix possède une durée de validité limitée. Une valeur expirée doit être actualisée avant d'être réutilisée. L'expiration d'un prix ne signifie pas nécessairement la suppression immédiate de son entrée dans le stockage.</p>
+<p>Les préférences et les données de veille peuvent être conservées entre les sessions du navigateur. Ces données sont stockées localement, sans envoi à l'auteur.</p>
+
 <h2>Requêtes réseau</h2>
-<p>L'extension n'effectue des requêtes qu'auprès de <code>https://kyara.games/</code>, vers les fiches publiques du wiki (<code>/wiki/…</code>), comme si vous les ouvriez vous-même. Elle ne contacte aucun autre domaine.</p>
+<p>Pour afficher les informations sur les cartes et leurs prix indicatifs, l'extension consulte des pages ou des ressources de <code>https://kyara.games/</code>, notamment les fiches publiques du wiki et les informations de marché utilisées par ses fonctionnalités.</p>
+<p>Elle n'envoie pas ces informations à l'auteur et n'utilise pas de service d'analyse ou de publicité.</p>
 
 <h2>Où l'extension s'exécute</h2>
-<p>Uniquement sur <code>https://kyara.games/*</code>. Elle n'accède à aucun autre site, à votre historique, à vos onglets ni à vos favoris.</p>
+<p>Les scripts qui modifient les pages du site sont exécutés uniquement sur <code>https://kyara.games/*</code>, conformément au manifeste de l'extension.</p>
 
 <h2>Votre compte Kyara</h2>
 <p>Better Kyara ne modifie ni votre inventaire, ni votre compte, ni vos ressources, ni les données du jeu. Les cartes affichées comme « non débloquées » restent non débloquées.</p>

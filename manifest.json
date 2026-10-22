@@ -1,40 +1,46 @@
 {
   "manifest_version": 3,
   "name": "Better Kyara",
-  "version": "1.6",
-  "description": "Affiche les cartes manquantes Kyara avec nom et univers dans la collection.",
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "better-kyara@psickossh",
-      "data_collection_permissions": {
-        "required": ["none"]
-      }
-    }
-  },
+  "version": "1.7",
+  "description": "Cartes manquantes dans la collection, prix, séries, raretés, filtres et améliorations visuelles sur Kyara. Sans actions de jeu automatisées.",
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "host_permissions": [
     "https://kyara.games/*"
   ],
   "background": {
     "service_worker": "background.js",
-    "scripts": ["background.js"]
+    "scripts": [
+      "background.js"
+    ]
   },
   "action": {
     "default_title": "Better Kyara",
     "default_icon": {
       "16": "icons/icon16.png",
-	  "32": "icons/icon32.png",
+      "32": "icons/icon32.png",
       "48": "icons/icon48.png",
-	  "64": "icons/icon64.png",
+      "64": "icons/icon64.png",
       "128": "icons/icon128.png"
     }
   },
   "content_scripts": [
     {
-      "matches": ["https://kyara.games/*"],
-      "js": ["content.js"],
+      "matches": [
+        "https://kyara.games/*"
+      ],
+      "js": [
+        "price-service.js",
+        "price-cache.js",
+        "marche.js",
+        "rarity-borders.js",
+        "content.js"
+      ],
+      "css": [
+        "marche.css"
+      ],
       "run_at": "document_idle"
     }
   ],
@@ -44,5 +50,16 @@
     "48": "icons/icon48.png",
     "64": "icons/icon64.png",
     "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "better-kyara@psickossh",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
   }
 }

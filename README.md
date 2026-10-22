@@ -65,6 +65,19 @@ Si tu arrives sur la fiche d'une carte par un autre chemin (Marché, lien partag
 
 Sur la page des boosters, le compteur « 2 975 / 6 457 possédés » est complété par le pourcentage correspondant (par exemple « 46,1 % »).
 
+### Amélioration des échanges sur Le marché
+
+La page **Le marché** est enrichie pour faciliter la lecture et la comparaison des offres d’échange :
+
+- Affiche le prix indicatif des cartes en chakra, avec la période ou le nombre de ventes utilisé pour l’estimation.
+- Ajoute le nom, l’univers et la rareté des cartes demandées.
+- Ajoute des contours personnalisés de la couleur de rareté sur la carte proposée par l’autre joueur et sur les cartes demandées que tu possèdes.
+- Laisse les cartes demandées que tu ne possèdes pas sans contour personnalisé, pour repérer plus facilement celles que tu peux donner.
+- Supprime le liseré vert natif des cartes possédées pour éviter qu’il se superpose aux contours personnalisés.
+- Ajoute un bouton « ↻ Actualiser » qui recharge les offres en conservant ta recherche et tes filtres : « Que je n’ai pas », « Que je peux accepter », « Que je cherche », « Contre mes doublons » et « Mes offres ».
+
+Les prix et les gains affichés sont des estimations basées sur les ventes passées, pas des prix de vente garantis. L’extension ne propose ni ne valide d’échange à ta place.
+
 ## Fonctionnement
 
 **Aperçu.** Pour chaque case manquante visible, l'extension consulte en arrière-plan la fiche publique associée sur `kyara.games/wiki/{id}`, comme lorsque tu ouvres la case manuellement. Elle récupère le nom du personnage, son univers et l'aperçu de la carte, puis les affiche dans la grille.

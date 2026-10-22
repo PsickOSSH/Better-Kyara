@@ -1,0 +1,710 @@
+/* =========================================================
+   Kyara Lite V2 — content.css
+   Thème kyara.games + contours de rareté sur les cartes.
+   Remplace intégralement l'ancien content.css.
+   ========================================================= */
+
+:root {
+  --kl-bg: #0d0c11;
+  --kl-panel: #15141a;
+  --kl-panel2: #1b1923;
+  --kl-line: #b5b1bb;
+  --kl-line2: #b5b1bb;
+  --kl-fg: #edeae4;
+  --kl-fg2: #c5c1cf;
+  --kl-mut: #8a8590;
+  --kl-acc: #ff4d2e;
+  --kl-acc2: #ff6a4d;
+  --kl-cyan: #4dd6ff;
+  --kl-radius: 10px;
+
+  --kl-rar-U: #3fbf7f;
+  --kl-rar-R: #5fa5ff;
+  --kl-rar-E: #b878ff;
+  --kl-rar-L: #f5d770;
+  --kl-rar-M: #ff725f;
+}
+
+/* ---------- Métadonnées de carte ---------- */
+.kyara-lite-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+  max-width: 100%;
+  font: 11px/1.35 var(--body, system-ui, sans-serif);
+  color: var(--kl-fg2, #c5c1cf);
+  letter-spacing: .01em;
+}
+
+.kyara-lite-price {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  max-width: 100%;
+  color: var(--kl-cyan, #4dd6ff);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-shadow: 0 0 10px rgba(77, 214, 255, .25);
+}
+
+.kyara-lite-value { font-size: 11px; font-weight: 700; }
+.kyara-lite-period {
+  font: 8px/1.2 var(--body, system-ui, sans-serif);
+  color: var(--kl-mut, #8a8590);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.kyara-lite-name {
+  font-weight: 700;
+  color: var(--kl-fg, #edeae4);
+  letter-spacing: .02em;
+}
+.kyara-lite-name,
+.kyara-lite-series { max-width: 100%; overflow-wrap: anywhere; }
+.kyara-lite-series {
+  color: var(--kl-mut, #8a8590);
+  text-transform: uppercase;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+
+/* ---------- Badge de rareté ---------- */
+.kyara-lite-rarity {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 99px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--kl-rar, var(--kl-fg2));
+  border: 1px solid color-mix(in srgb, var(--kl-rar, var(--kl-fg2)) 55%, transparent);
+  background: color-mix(in srgb, var(--kl-rar, var(--kl-fg2)) 12%, var(--kl-panel));
+}
+
+.kyara-lite-rarity[data-rarity="U"] { --kl-rar: var(--kl-rar-U); }
+.kyara-lite-rarity[data-rarity="R"] { --kl-rar: var(--kl-rar-R); }
+.kyara-lite-rarity[data-rarity="E"] { --kl-rar: var(--kl-rar-E); }
+.kyara-lite-rarity[data-rarity="L"] { --kl-rar: var(--kl-rar-L); }
+.kyara-lite-rarity[data-rarity="M"] { --kl-rar: var(--kl-rar-M); }
+
+.kyara-lite-meta[data-state="loading"] .kyara-lite-price,
+.kyara-lite-meta[data-state="empty"] .kyara-lite-price { color: var(--kl-fg2, #c5c1cf); }
+.kyara-lite-meta[data-state="error"] .kyara-lite-price { color: #ffb4a6; }
+
+/* ---------- Offres : mise en page ---------- */
+.offers .offer:has(.kyara-lite-card) { container: kyara-lite-offer / inline-size; }
+
+.offers .offer .top:has(.kyara-lite-card) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px;
+  align-items: start;
+  gap: 10px;
+}
+.offers .offer .top:has(.kyara-lite-card) .give { grid-column: 1; }
+.offers .offer .top:has(.kyara-lite-card) .arrow { grid-column: 2; align-self: center; }
+.offers .offer .top:has(.kyara-lite-card) .want { grid-column: 1 / -1; min-width: 0; }
+.offers .offer .give .gi { min-width: 0; }
+.offers .offer .give .gi > :is(b, span) { white-space: normal; overflow-wrap: anywhere; }
+
+@container kyara-lite-offer (min-width: 700px) {
+  .offers .offer .top:has(.kyara-lite-card) { grid-template-columns: 240px 20px minmax(0, 1fr); }
+  .offers .offer .top:has(.kyara-lite-card) .want { grid-column: 3; }
+}
+
+.offers .offer a.kyara-lite-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  text-decoration: none;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.offers .offer .want .thumbs:has(.kyara-lite-card) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(80px, 100%), 1fr));
+  align-items: start;
+  gap: 8px 4px;
+}
+.offers .offer .want a.kyara-lite-card { width: 100%; align-self: start; }
+.offers .offer .kyara-lite-meta { align-items: center; text-align: center; width: 100%; }
+.offers .offer :is(.kyara-lite-name, .kyara-lite-series) {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.offers .offer .kyara-lite-price {
+  padding: 2px 4px;
+  border: 1px solid var(--kl-line2, #3a3547);
+  border-radius: 7px;
+  background: linear-gradient(180deg, var(--kl-panel2, #1b1923), var(--kl-bg, #0d0c11));
+  min-width: 40px;
+  box-sizing: border-box;
+}
+.offers .offer .want a.kyara-lite-card img { flex: none; border-radius: 6px; }
+
+/* ---------- Amis / galerie / créateur ---------- */
+.kyara-lite-friend .nm,
+.kyara-lite-friend .cn { white-space: normal; min-width: 0; }
+
+.kyara-lite-friend .kyara-lite-meta,
+.kyara-lite-gallery .kyara-lite-meta,
+.kyara-lite-creator .kyara-lite-meta { margin-top: 3px; }
+
+.kyara-lite-friend .kyara-lite-price,
+.kyara-lite-gallery .kyara-lite-price,
+.kyara-lite-creator .kyara-lite-price { flex-direction: row; gap: 5px; }
+
+/* ---------- Échanges / marché ---------- */
+.trades .thumbs > a.kyara-lite-market {
+  display: inline-grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  width: 160px;
+  max-width: 100%;
+  min-width: 0;
+  text-decoration: none;
+}
+.trades .thumbs > a.kyara-lite-market img {
+  grid-column: 1;
+  grid-row: 1;
+  width: 40px;
+  height: 54px;
+  object-fit: cover;
+  flex: none;
+  border-radius: 6px;
+}
+.trades .thumbs > a.kyara-lite-market > span:not(.kyara-lite-meta) { grid-column: 1; grid-row: 2; }
+.trades .thumbs > a.kyara-lite-market .kyara-lite-meta { grid-column: 2; grid-row: 1 / span 2; }
+
+.trades .kyara-lite-series {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ---------- Collection : reste native ---------- */
+.wrap.body .cell .mk .med {
+  min-width: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Étagères d'échange ---------- */
+.kyara-lite-unified { min-width: 0; }
+.kyara-lite-unified > .kyara-lite-meta { width: 100%; margin-top: 3px; }
+.kyara-lite-unified .kyara-lite-rarity { font-size: 9px; }
+.kyara-lite-unified .kyara-lite-series {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 10px;
+}
+.kyara-lite-unified .nm {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.trades .kyara-lite-unified > .pr { font-size: 9px; color: var(--kl-mut, #8a8590); }
+.trades .kyara-lite-unified > .pr::before { content: "Hab. "; }
+.kyara-lite-unified .kyara-lite-price {
+  align-self: flex-start;
+  padding: 2px 4px;
+  border: 1px solid var(--kl-line2, #3a3547);
+  border-radius: 7px;
+  background: linear-gradient(180deg, var(--kl-panel2, #1b1923), var(--kl-bg, #0d0c11));
+}
+
+/* ---------- Bouton Actualiser : aucun fond ---------- */
+.kyara-lite-refresh {
+  justify-self: start;
+  align-self: start;
+  width: fit-content;
+  margin: 10px 0 14px;
+  min-height: 34px;
+  padding: 0px 14px;
+  border: 1px solid #3a3547;
+  border-radius: 999px;
+  color: var(--kl-fg, #edeae4);
+  cursor: pointer;
+  font: 800 11px/1.4 var(--body, system-ui, sans-serif);
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: border-color .15s ease, color .15s ease;
+}
+
+.kyara-lite-refresh,
+.kyara-lite-refresh:hover,
+.kyara-lite-refresh:active,
+.kyara-lite-refresh:focus,
+.kyara-lite-refresh:focus-visible {
+  --raise: transparent !important;
+  background: transparent !important;
+}
+
+.kyara-lite-refresh:hover {
+  border-color: var(--kl-acc, #ff4d2e);
+  background: rgb(255 77 46 / 14%) !important;
+}
+
+.wrap.body .grid .cell .kyara-lite-card-controls > button.kyara-lite-lock {
+  display: inline-flex;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  min-height: 0;
+  padding: 4px;
+  margin: 4px auto 0;
+  border: 1px solid var(--kl-line2, #3a3547);
+  border-radius: 7px;
+  color: var(--kl-mut, #8a8590);
+  background: var(--kl-panel2, #1b1923);
+  cursor: pointer;
+  transition: border-color .15s ease, color .15s ease;
+}
+.kyara-lite-lock svg { width: 15px; height: 15px; }
+.wrap.body .grid .cell .kyara-lite-card-controls > button.kyara-lite-lock[aria-pressed="true"] {
+  color: var(--kl-rar-L);
+  border-color: var(--kl-rar-L);
+}
+.wrap.body .grid .cell .kyara-lite-card-controls > button.kyara-lite-lock:disabled { opacity: .5; cursor: default; }
+.wrap.body .grid .cell .kyara-lite-card-controls > button.kyara-lite-lock:hover:enabled {
+  border-color: var(--kl-fg2, #c5c1cf);
+}
+.kyara-lite-lock:focus-visible {
+  outline: 2px solid var(--kl-cyan, #4dd6ff);
+  outline-offset: 2px;
+}
+.kyara-lite-official-locked .pin { display: none; }
+.kyara-lite-lock-notice { color: #ffb4a6; font: 12px/1.5 var(--body, system-ui, sans-serif); }
+
+/* =========================================================
+   CONTOUR DE COULEUR SELON LA RARETÉ
+   Aucun JS : détecte le badge .kyara-lite-rarity[data-rarity]
+   ========================================================= */
+
+/* Cartes d'offres */
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity]) {
+  --kl-rar: var(--kl-line2);
+  border: 2px solid var(--kl-rar);
+  border-radius: var(--kl-radius);
+  padding: 4px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--kl-rar) 8%, var(--kl-panel)), var(--kl-panel));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--kl-rar) 25%, transparent),
+              0 0 14px color-mix(in srgb, var(--kl-rar) 28%, transparent);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity="U"]) { --kl-rar: var(--kl-rar-U); }
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity="R"]) { --kl-rar: var(--kl-rar-R); }
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity="E"]) { --kl-rar: var(--kl-rar-E); }
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity="L"]) { --kl-rar: var(--kl-rar-L); }
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity="M"]) { --kl-rar: var(--kl-rar-M); }
+
+.offers .offer a.kyara-lite-card:has(.kyara-lite-rarity[data-rarity]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--kl-rar),
+              0 6px 22px color-mix(in srgb, var(--kl-rar) 45%, transparent);
+}
+
+/* Cartes du marché / échanges */
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity]) {
+  --kl-rar: var(--kl-line2);
+  border: 2px solid var(--kl-rar);
+  border-radius: var(--kl-radius);
+  padding: 4px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--kl-rar) 8%, var(--kl-panel)), var(--kl-panel));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--kl-rar) 25%, transparent),
+              0 0 14px color-mix(in srgb, var(--kl-rar) 28%, transparent);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity="U"]) { --kl-rar: var(--kl-rar-U); }
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity="R"]) { --kl-rar: var(--kl-rar-R); }
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity="E"]) { --kl-rar: var(--kl-rar-E); }
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity="L"]) { --kl-rar: var(--kl-rar-L); }
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity="M"]) { --kl-rar: var(--kl-rar-M); }
+
+.trades .thumbs > a.kyara-lite-market:has(.kyara-lite-rarity[data-rarity]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--kl-rar),
+              0 6px 22px color-mix(in srgb, var(--kl-rar) 45%, transparent);
+}
+
+/* Cartes unifiées (étagères) */
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity]) {
+  --kl-rar: var(--kl-line2);
+  border: 2px solid var(--kl-rar);
+  border-radius: var(--kl-radius);
+  padding: 4px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--kl-rar) 8%, var(--kl-panel)), var(--kl-panel));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--kl-rar) 25%, transparent),
+              0 0 14px color-mix(in srgb, var(--kl-rar) 28%, transparent);
+}
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity="U"]) { --kl-rar: var(--kl-rar-U); }
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity="R"]) { --kl-rar: var(--kl-rar-R); }
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity="E"]) { --kl-rar: var(--kl-rar-E); }
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity="L"]) { --kl-rar: var(--kl-rar-L); }
+.kyara-lite-unified:has(.kyara-lite-rarity[data-rarity="M"]) { --kl-rar: var(--kl-rar-M); }
+
+/* Cartes de la collection */
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity]) {
+  --kl-rar: var(--kl-line2);
+  border: 2px solid var(--kl-rar);
+  border-radius: var(--kl-radius);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--kl-rar) 8%, var(--kl-panel)), var(--kl-panel));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--kl-rar) 25%, transparent),
+              0 0 14px color-mix(in srgb, var(--kl-rar) 28%, transparent);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity="U"]) { --kl-rar: var(--kl-rar-U); }
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity="R"]) { --kl-rar: var(--kl-rar-R); }
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity="E"]) { --kl-rar: var(--kl-rar-E); }
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity="L"]) { --kl-rar: var(--kl-rar-L); }
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity="M"]) { --kl-rar: var(--kl-rar-M); }
+
+.wrap.body .grid .cell:has(.kyara-lite-rarity[data-rarity]):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px var(--kl-rar),
+              0 6px 22px color-mix(in srgb, var(--kl-rar) 45%, transparent);
+}
+
+/* Halo renforcé pour Légendaire et Mythique */
+:is(.offers .offer a.kyara-lite-card,
+    .trades .thumbs > a.kyara-lite-market,
+    .wrap.body .grid .cell):has([data-rarity="L"], [data-rarity="M"]) {
+  box-shadow: 0 0 0 1px var(--kl-rar),
+              0 0 22px color-mix(in srgb, var(--kl-rar) 45%, transparent);
+}
+
+/* ---------- Offres / échanges : panneaux ---------- */
+.offers .offer,
+.trades > .trade {
+  background: var(--kl-panel, #15141a);
+  border-radius: 14px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .35);
+}
+.offers .offer:hover { border-color: var(--kl-line2, #3a3547); }
+
+/* ---------- Notifications / Comptoir ---------- */
+.kyaraext-wish-filter-on .pop li:has(.ico.t-wish_listed):not([data-kyaraext-wish="show"]) { display: none !important; }
+
+.kyaraext-notification-tools {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--kl-line, #2a2733);
+  color: var(--kl-fg, #edeae4);
+  background: var(--kl-panel, #15141a);
+  font: 12px/1.5 var(--body, system-ui, sans-serif);
+}
+.kyaraext-notification-tools label {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  font: inherit;
+}
+.kyaraext-notification-tools input[type="checkbox"],
+.kyaraext-chat-legend input {
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  accent-color: var(--kl-cyan, #4dd6ff);
+}
+.kyaraext-notification-tools input[type="number"] {
+  width: 55px;
+  min-width: 0;
+  height: 28px;
+  padding: 3px 6px;
+  border: 1px solid var(--kl-line2, #3a3547);
+  border-radius: 8px;
+  background: var(--kl-bg, #0d0c11);
+  color: inherit;
+  font: inherit;
+}
+.kyaraext-notification-tools input[type="number"]:focus {
+  outline: none;
+  border-color: var(--kl-cyan, #4dd6ff);
+  box-shadow: 0 0 0 2px rgba(77, 214, 255, .2);
+}
+.kyaraext-notification-tools > [role="status"],
+.kyaraext-notification-tools .kyaraext-method { color: var(--kl-mut, #8a8590); font-size: 10px; }
+.kyaraext-notification-tools .kyaraext-method { margin: 0; }
+.kyaraext-notification-tools .kyaraext-method > summary { cursor: pointer; font-size: 10px; font-weight: 500; }
+.kyaraext-notification-tools .kyaraext-method > p {
+  margin: 8px 0 0;
+  color: var(--kl-fg2, #c5c1cf);
+  line-height: 1.6;
+}
+.kyaraext-notification-range {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.kyaraext-notification-range label {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px;
+  gap: 4px;
+  font-size: 10px;
+}
+.kyaraext-notification-range input[type="number"] { width: 76px; }
+.kyaraext-notification-buyout {
+  display: block;
+  color: var(--kl-cyan, #4dd6ff);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.kyaraext-filtered-bell > .badge { display: none !important; }
+.kyaraext-filtered-bell { position: relative; }
+.kyaraext-wish-badge {
+  position: absolute;
+  right: -3px;
+  top: -2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 3px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--kl-acc, #ff4d2e), var(--kl-acc2, #ff6a4d));
+  box-shadow: 0 0 8px rgba(255, 77, 46, .6);
+  color: #fff;
+  font: 700 10px/16px var(--body, system-ui, sans-serif);
+  text-align: center;
+}
+.kyaraext-wish-badge[hidden] { display: none; }
+
+/* ---------- Chat ---------- */
+[data-kyaraext-chat="seek-owned"] { --kyaraext-chat-color: #51d9bd; }
+[data-kyaraext-chat="seek-missing"] { --kyaraext-chat-color: #659bac; }
+[data-kyaraext-chat="trade"], [data-kyaraext-chat="offer"] { --kyaraext-chat-color: #e7bf52; }
+[data-kyaraext-chat="listing"] { --kyaraext-chat-color: #b593f2; }
+
+.att[data-kyaraext-chat] {
+  border-color: color-mix(in srgb, var(--kyaraext-chat-color) 60%, var(--kl-line, #2a2733)) !important;
+  background: color-mix(in srgb, var(--kyaraext-chat-color) 7%, var(--kl-panel, #15141a)) !important;
+  box-shadow: inset 3px 0 var(--kyaraext-chat-color);
+  border-radius: 10px;
+}
+.att[data-kyaraext-chat] .tag {
+  color: var(--kyaraext-chat-color);
+  border-color: color-mix(in srgb, var(--kyaraext-chat-color) 50%, transparent);
+}
+
+.kyaraext-chat-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 8px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--kl-line, #2a2733);
+  color: var(--kl-mut, #8a8590);
+  font: 9px/1.5 var(--body, system-ui, sans-serif);
+}
+.kyaraext-chat-legend label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.kyaraext-chat-legend > span { color: var(--kyaraext-chat-color); }
+.kyaraext-chat-legend > span::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* ---------- Contrôles de carte ---------- */
+.kyara-lite-card-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin: 4px auto 0;
+}
+.wrap.body .grid .cell .kyara-lite-card-controls > button { margin: 0; }
+.kyaraext-filtered-bell[data-kyaraext-unread="0"] svg { animation: none !important; }
+
+/* ---------- Veille ---------- */
+.kyaraext-watch-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 24px;
+  padding: 3px;
+  border: 1px solid var(--kl-line, #2a2733);
+  border-radius: 7px;
+  background: var(--kl-panel2, #1b1923);
+  color: var(--kl-mut, #8a8590);
+  cursor: pointer;
+  vertical-align: middle;
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.kyaraext-watch-button svg { width: 15px; height: 15px; }
+.kyaraext-watch-button:hover,
+.kyaraext-watch-button[aria-pressed="true"] {
+  color: var(--kl-acc2, #ff6a4d);
+  border-color: var(--kl-acc, #ff4d2e);
+  background: rgba(255, 77, 46, .08);
+}
+
+.kyaraext-watch-feed {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--kl-line, #2a2733);
+  font-size: 12px;
+  background: var(--kl-panel, #15141a);
+}
+.kyaraext-watch-feed > div,
+.kyaraext-watch-feed details > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.kyaraext-watch-feed button {
+  background: transparent;
+  border: 1px solid var(--kl-line, #2a2733);
+  border-radius: 7px;
+  color: inherit;
+  padding: 3px 6px;
+  cursor: pointer;
+  font-size: 11px;
+}
+.kyaraext-watch-feed ul {
+  list-style: none;
+  padding: 0;
+  margin: 7px 0;
+  max-height: 240px;
+  overflow: auto;
+}
+.kyaraext-watch-feed li { padding: 7px; border-radius: 7px; }
+.kyaraext-watch-feed li.unread {
+  background: rgba(255, 77, 49, .1);
+  border-left: 2px solid var(--kl-acc, #ff4d2e);
+}
+.kyaraext-watch-feed a {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  color: inherit;
+  text-decoration: none;
+}
+.kyaraext-watch-feed small { color: var(--kl-mut, #8a8590); }
+.kyaraext-watch-feed summary { cursor: pointer; color: var(--kl-mut, #8a8590); margin-top: 7px; }
+.kyaraext-watch-feed details > div { margin-top: 5px; }
+
+/* ---------- Collection : disposition native conservée ---------- */
+.wrap.body .cell .mk:has(>.kyara-lite-meta) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 5px;
+  align-items: center;
+}
+.wrap.body .cell .mk:has(>.kyara-lite-meta) > .med { display: none; }
+.wrap.body .cell .mk > .kyara-lite-meta { grid-column: 1; grid-row: 1; min-width: 0; }
+.wrap.body .cell .mk:has(>.kyara-lite-meta) > .sell { grid-column: 2; grid-row: 1; justify-self: center; }
+.wrap.body .cell .mk > .kyara-lite-meta .kyara-lite-price {
+  white-space: normal;
+  align-items: flex-start;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.wrap.body .cell .mk > .kyara-lite-meta .kyara-lite-value { font-size: 10px; }
+.wrap.body .cell .mk > .kyara-lite-meta .kyara-lite-period {
+  font-size: 8px;
+  white-space: nowrap;
+}
+
+/* ---------- Accessibilité ---------- */
+@media (prefers-reduced-motion: reduce) {
+  :is(.offers .offer a.kyara-lite-card,
+      .trades .thumbs > a.kyara-lite-market,
+      .wrap.body .grid .cell) {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
+/* =========================================================
+   DIAGNOSTIC CONFIRMÉ
+   Le "vert" vu sur les cartes possédées est en réalité :
+   - la bordure 2px de MON contour (vert = rareté U / peu commune)
+   - plus le contour beige 3px du site (outline rgb(237,234,228))
+   Le contour du site est celui-ci : on le retire partout.
+   ========================================================= */
+a.kyara-lite-card,
+a.thumb,
+a.big {
+  outline: none !important;
+}
+a.kyara-lite-card:focus-visible,
+a.thumb:focus-visible,
+a.big:focus-visible {
+  outline: 2px solid var(--kl-cyan, #4dd6ff) !important;
+  outline-offset: 2px;
+}
+
+/* Correctif ciblé : ajouter à la FIN du content.css actuel.
+   Ne remplace pas le thème complet. */
+
+/* Anneau natif sur la vignette possédée, pas sur son cadre personnalisé. */
+.offers .offer .want a.thumb.have.kyara-lite-want > img {
+  outline: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.offers .offer .want a.thumb.have.kyara-lite-want {
+  outline: none !important;
+}
+
+/* Carte proposée par l'autre joueur : --kl-rar est fourni par rarity-borders.js.
+   Le gris sert de repli pour une commune ou avant réception de la couleur. */
+.offers .offer .give a.big.kyara-lite-give {
+  box-sizing: border-box;
+  border: 2px solid var(--kl-rar, #b5b1bb) !important;
+  border-radius: var(--kl-radius, 10px);
+  padding: 4px;
+  background: var(--kl-panel, #15141a);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--kl-rar, #b5b1bb) 28%, transparent) !important;
+}
+.offers .offer .give a.big.kyara-lite-give > img {
+  border-radius: 6px;
+}
+
+/* À ajouter à la FIN du content.css, après le correctif précédent.
+   Dans les offres seulement : retirer le cadre des choix non possédés.
+   Ne touche ni aux .want.have ni à la carte .give. */
+.offers .offer .want a.thumb.kyara-lite-want:not(.have),
+.offers .offer .want a.thumb.kyara-lite-want:not(.have):hover {
+  border: 2px solid transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  transform: none !important;
+}
+.offers .offer .want a.thumb.kyara-lite-want:not(.have) > img {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
