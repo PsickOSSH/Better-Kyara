@@ -100,8 +100,10 @@ Les cartes restent non débloquées : Better Kyara ne modifie pas ton inventaire
 - Aucune donnée personnelle n'est collectée.
 - Aucune donnée n'est envoyée à l'auteur ni à un serveur tiers.
 - L'extension effectue uniquement des requêtes vers `https://kyara.games/`.
-- Pour restaurer tes filtres, leur état est gardé temporairement dans le stockage de session de ton onglet (`sessionStorage`). Il disparaît à la fermeture de l'onglet ou après 30 minutes, et ne quitte jamais ton navigateur.
+- Pour restaurer tes filtres, leur état est gardé temporairement dans le stockage de session de ton onglet (`sessionStorage`). Ces informations restent dans ton navigateur.
 - L'extension ne s'exécute que sur `https://kyara.games/*`.
+
+Consulte la [politique de confidentialité complète](https://psickossh.github.io/Better-Kyara/privacy.html) pour plus de détails.
 
 ## Structure du projet
 
@@ -111,7 +113,10 @@ better-kyara/
 ├── content.js
 ├── README.md
 ├── LICENSE
+├── docs/
+│   └── privacy.html
 └── icons/
+    ├── main.png
     ├── icon16.png
     ├── icon32.png
     ├── icon48.png
