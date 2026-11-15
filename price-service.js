@@ -161,7 +161,7 @@
         async function request(path) {
           const response = await fetchImpl(`${ORIGIN}/api${path}`, {
             method: "GET",
-            credentials: "omit",
+            credentials: "include",
             redirect: "error",
             cache: "no-store",
             headers: { Accept: "application/json" },
